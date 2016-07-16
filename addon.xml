@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.audio.rsi.podcast" name="RSI podcast" version="0.0.1" provider-name="Filippo Carra">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+        <import addon="script.module.beautifulsoup" version="3.2.1"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>audio</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">RSI Podcast</summary>
+        <description lang="en">Access RSI podcasts from your favourite mediaplayer.
+        </description>
+        <disclaimer lang="en">Unofficial, I'm just a fan of Buffa's pieces.</disclaimer>
+        <summary lang="it">Deejay RELOADED</summary>
+        <description lang="it">Accedi ai podcast della RSI dal tuo mediaplayer preferito
+        </description>
+        <disclaimer lang="it">Non ufficiale, sono solo un fan delle trasmissioni di Buffa.</disclaimer>
+        <language>it</language>
+        <platform>all</platform>
+        <license>GPL v2</license>
+        <forum></forum>
+        <website>https://github.com/karrukola/plugin.audio.rsipodcast</website>
+        <email>Filippo dot Carra at gMail dot com</email>
+        <source>https://github.com/karrukola/plugin.audio.rsipodcast.git</source>
+    </extension>
+</addon>
