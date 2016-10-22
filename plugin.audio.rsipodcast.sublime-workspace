@@ -3,10 +3,35 @@
 	{
 		"selected_items":
 		[
+			[
+				"play",
+				"play_episode\tfunction"
+			],
+			[
+				"epis",
+				"episodeId"
+			],
+			[
+				"sho",
+				"showsList\tstatement"
+			],
+			[
+				"ob",
+				"objResponse\tstatement"
+			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "default.py",
+			"settings":
+			{
+				"buffer_size": 1977,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -92,8 +117,39 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "default.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1977,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1732,
+								1732
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 660.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
