@@ -8,11 +8,11 @@
         <provides>audio</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <summary lang="en">RSI Podcast</summary>
+        <summary lang="en">RSI Play</summary>
         <description lang="en">Access RSI podcasts from your favourite mediaplayer.
         </description>
         <disclaimer lang="en">Unofficial, I'm just a fan of Buffa's pieces.</disclaimer>
-        <summary lang="it">Deejay RELOADED</summary>
+        <summary lang="it">RSI Play</summary>
         <description lang="it">Accedi ai podcast della RSI dal tuo mediaplayer preferito
         </description>
         <disclaimer lang="it">Non ufficiale, sono solo un fan delle trasmissioni di Buffa.</disclaimer>

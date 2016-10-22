@@ -4,12 +4,44 @@
 		"selected_items":
 		[
 			[
-				"play",
-				"play_episode\tfunction"
+				"is",
+				"IsPlayable"
+			],
+			[
+				"xb",
+				"xbmcplugin\tmodule"
+			],
+			[
+				"thu",
+				"thumb"
+			],
+			[
+				"thumb",
+				"thumbnailImage"
+			],
+			[
+				"th",
+				"through"
+			],
+			[
+				"addo",
+				"addon_handle\tstatement"
+			],
+			[
+				"list",
+				"listitem"
+			],
+			[
+				"add",
+				"addon_handle\tstatement"
 			],
 			[
 				"epis",
-				"episodeId"
+				"episodeId\tparam"
+			],
+			[
+				"play",
+				"play_episode\tfunction"
 			],
 			[
 				"sho",
@@ -27,9 +59,18 @@
 			"file": "default.py",
 			"settings":
 			{
-				"buffer_size": 1977,
+				"buffer_size": 4172,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Filippo/AppData/Roaming/Kodi/addons/plugin.audio.deejayIt.reloaded/default.py",
+			"settings":
+			{
+				"buffer_size": 7585,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -69,6 +110,7 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Filippo/Documents/plugin.audio.rsipodcast/addon.xml",
 		"/C/Users/Filippo/AppData/Roaming/Kodi/addons/plugin.audio.rsipodcast/default.py",
 		"/C/Users/Filippo/Desktop/prova.py",
 		"/C/Users/Filippo/AppData/Roaming/Kodi/addons/plugin.video.raitv/default.py",
@@ -78,7 +120,7 @@
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 43.0
 	},
 	"find_in_files":
 	{
@@ -92,6 +134,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"channel",
+			"get_shows",
+			"print",
+			"'http://il.srgssr.ch/integrationlayer/1.0/ue/rsi/",
 			"FC",
 			"http://mediapolisevent.rai.it/relinker/relinkerServlet.htm",
 			"play(",
@@ -107,6 +153,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"BASEURL + '"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -126,15 +173,49 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1977,
+						"buffer_size": 4172,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1732,
-								1732
+								1405,
+								1405
+							]
+						],
+						"settings":
+						{
+							"rulers":
+							[
+								78
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1012.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/Filippo/AppData/Roaming/Kodi/addons/plugin.audio.deejayIt.reloaded/default.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7585,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5965,
+								5639
 							]
 						],
 						"settings":
@@ -144,10 +225,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 660.0,
+						"translation.y": 2881.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -184,6 +265,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 142.0
+	},
 	"output.find_results":
 	{
 		"height": 0.0
@@ -192,7 +277,7 @@
 	"project": "plugin.audio.rsipodcast.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 80.0
 	},
 	"save_all_on_build": true,
 	"select_file":
