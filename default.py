@@ -5,12 +5,16 @@ import urlparse
 import xbmcaddon
 import xbmcgui
 import xbmcplugin
-import requests
 from json import loads
+import requests
 
 BASEURL = 'http://il.srgssr.ch/integrationlayer/1.0/ue/rsi/'
 
 CHLIST = [
+    ('rete-uno',
+     'http://www.rsi.ch/play/assets/img/srg/rsi/rete_uno_wide.png'),
+    ('rete-due',
+     'http://www.rsi.ch/play/assets/img/srg/rsi/rete_due_wide.png'),
     ('rete-tre',
      'http://www.rsi.ch/play/assets/img/srg/rsi/rete_tre_wide.png')
 ]
@@ -30,7 +34,6 @@ def get_shows(channelid):
     """
     url = BASEURL + 'radio/assetGroup/editorialPlayerAlphabeticalByChannel/' + \
             channelid + '.json'
-    print url
     resp = requests.get(url=url)
     data = loads(resp.text)
     return data['AssetGroups']['Show']
@@ -45,17 +48,18 @@ def get_episodes(showId):
 
 def get_episode_audio_url(episodeId):
     url = BASEURL + 'audio/play/' + episodeId + '.json'
-    print url
     resp = requests.get(url=url)
     data = loads(resp.text)
     return data['Audio']['Playlists']['Playlist'][0]['url'][0]['text']
 
 
 def play_episode(episodeId, addon_handle):
+    """
+    Play the selected episode
+    """
     epUrl = get_episode_audio_url(episodeId)
     li = xbmcgui.ListItem(path=epUrl)
     xbmcplugin.setResolvedUrl(addon_handle, True, li)
-
     return epUrl
 
 
@@ -126,11 +130,6 @@ def main():
     # e chiudiamo la lista per tutti i modi
     xbmcplugin.endOfDirectory(addon_handle)
 
-    #     print episode['title'].encode('utf-8').strip()
-
-    # epUrl = play_episode('8092102')
-    # play_item = xbmcgui.ListItem(path=epUrl)
-    # xbmcplugin.setResolvedUrl(addon_handle, True, listitem=play_item)
 
 if __name__ == '__main__':
     addon_handle = int(sys.argv[1])
