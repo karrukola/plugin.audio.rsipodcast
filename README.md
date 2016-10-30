@@ -6,6 +6,7 @@ A Kodi plugin to surf through RSI podcasts. It all started with my appreciation 
 ### List of stations
 ![RSI list of stations](https://drive.google.com/open?id=0B_RiBu67K5bGR2FBUTIxUzdqZUU)
 ![Kodi list of stations](https://drive.google.com/open?id=0B_RiBu67K5bGdHhVR2ZoYmtrOE0)
+![Kodi list of stations](https://lh4.googleusercontent.com/027yI5M-gE8K5EUPYauDjGnmuss1a3da6lYiVax2fSaC7_CyKzEF1C_oJfBK4d0s-9bMH2HO8Ucp044=w1920-h940-rw)
 
 
 ## Technicalities
