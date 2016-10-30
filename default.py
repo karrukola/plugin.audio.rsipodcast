@@ -39,8 +39,10 @@ def get_shows(channelid):
     return data['AssetGroups']['Show']
 
 
-def get_episodes(showId):
+def get_episodes(showId, page):
     url = BASEURL + 'assetSet/listByAssetGroup/' + showId + '.json'
+    if page is not None:
+        url += '?pageNumber=' + page[0]
     resp = requests.get(url=url)
     data = loads(resp.text)
     return data['AssetSets']['AssetSet']
@@ -100,6 +102,24 @@ def add_episode(ep, addon_handle):
     return
 
 
+def add_next_page(page, addon_handle, rsiid):
+    """
+    Add navigation to another page
+    """
+    if page is None:
+        nextpage = 2
+    else:
+        nextpage = int(page[0]) + 1
+    li = xbmcgui.ListItem(label=">>> Mostra di piu >>>")
+    xbmcplugin.addDirectoryItem(handle=addon_handle,
+                                url=build_url({'mode': 'AssetGroup',
+                                               'rsiid': rsiid[0],
+                                               'page': str(nextpage)}),
+                                listitem=li,
+                                isFolder=True)
+    return
+
+
 def main():
     """
     main function, handles modes and lists creation in Kodi
@@ -107,6 +127,7 @@ def main():
     args = urlparse.parse_qs(sys.argv[2][1:])
     mode = args.get('mode', None)
     rsiid = args.get('rsiid', None)
+    page = args.get('page', None)
     if mode is None:
         # create list of (radio) channels
         for channel in CHLIST:
@@ -121,9 +142,10 @@ def main():
         for show in showsList:
             add_show(show, addon_handle)
     elif mode[0] == 'AssetGroup':
-        episodesList = get_episodes(rsiid[0])
+        episodesList = get_episodes(rsiid[0], page)
         for episode in episodesList:
             add_episode(episode, addon_handle)
+        add_next_page(page, addon_handle, rsiid)
     elif mode[0] == 'play':
         play_episode(rsiid[0], addon_handle)
 
