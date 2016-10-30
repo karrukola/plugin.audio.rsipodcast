@@ -22,7 +22,7 @@ CHLIST = [
 
 def build_url(query):
     """
-    Kodi passess paramteres through a URL that is used to call the plugin itself
+    To pass the parameters among plugin calls
     """
     base_url = sys.argv[0]
     return base_url + '?' + urllib.urlencode(query)
@@ -39,25 +39,32 @@ def get_shows(channelid):
     return data['AssetGroups']['Show']
 
 
-def get_episodes(showId, page):
-    url = BASEURL + 'assetSet/listByAssetGroup/' + showId + '.json'
+def get_episodes(showid, page):
+    """
+    Get episodes list for a given ID.
+    Episodes are paginated in groups of 10, thus you need to know the page
+    """
+    url = BASEURL + 'assetSet/listByAssetGroup/' + showid + '.json'
     if page is not None:
         url += '?pageNumber=' + page[0]
     resp = requests.get(url=url)
     data = loads(resp.text)
-    episodesList = data['AssetSets']['AssetSet']
-    pageSize = data['AssetSets']['@pageSize'] 
-    return episodesList, pageSize
+    episodeslist = data['AssetSets']['AssetSet']
+    pagesize = data['AssetSets']['@pageSize']
+    return episodeslist, pagesize
 
 
-def get_episode_audio_url(episodeId):
-    url = BASEURL + 'audio/play/' + episodeId + '.json'
+def get_episode_audio_url(episodeid):
+    """
+    Retrieve the mp3 URL
+    """
+    url = BASEURL + 'audio/play/' + episodeid + '.json'
     resp = requests.get(url=url)
     data = loads(resp.text)
     return data['Audio']['Playlists']['Playlist'][0]['url'][0]['text']
 
 
-def play_episode(episodeId, addon_handle):
+def play_episode(episodeId):
     """
     Play the selected episode
     """
@@ -67,7 +74,7 @@ def play_episode(episodeId, addon_handle):
     return epUrl
 
 
-def add_show(show, addon_handle):
+def add_show(show):
     """
     Add a list item for each show
     """
@@ -86,7 +93,7 @@ def add_show(show, addon_handle):
     return
 
 
-def add_episode(ep, addon_handle):
+def add_episode(ep):
     """
     Add a list item for each episode
     """
@@ -104,7 +111,7 @@ def add_episode(ep, addon_handle):
     return
 
 
-def add_next_page(page, addon_handle, rsiid):
+def add_next_page(page, rsiid):
     """
     Add navigation to another page
     """
@@ -140,17 +147,17 @@ def main():
                                         listitem=li,
                                         isFolder=True)
     elif mode[0] == 'channel':
-        showsList = get_shows(rsiid[0])
-        for show in showsList:
-            add_show(show, addon_handle)
+        showslist = get_shows(rsiid[0])
+        for show in showslist:
+            add_show(show)
     elif mode[0] == 'AssetGroup':
-        episodesList, pageSize = get_episodes(rsiid[0], page)
-        for episode in episodesList:
-            add_episode(episode, addon_handle)
-        if pageSize != 0:
-            add_next_page(page, addon_handle, rsiid)
+        episodeslist, pagesize = get_episodes(rsiid[0], page)
+        for episode in episodeslist:
+            add_episode(episode)
+        if pagesize != 0:
+            add_next_page(page, rsiid)
     elif mode[0] == 'play':
-        play_episode(rsiid[0], addon_handle)
+        play_episode(rsiid[0])
 
     # e chiudiamo la lista per tutti i modi
     xbmcplugin.endOfDirectory(addon_handle)
