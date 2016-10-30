@@ -68,10 +68,10 @@ def play_episode(episodeId):
     """
     Play the selected episode
     """
-    epUrl = get_episode_audio_url(episodeId)
-    li = xbmcgui.ListItem(path=epUrl)
+    epurl = get_episode_audio_url(episodeId)
+    li = xbmcgui.ListItem(path=epurl)
     xbmcplugin.setResolvedUrl(addon_handle, True, li)
-    return epUrl
+    return epurl
 
 
 def add_show(show):
