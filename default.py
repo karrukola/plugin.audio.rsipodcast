@@ -45,7 +45,9 @@ def get_episodes(showId, page):
         url += '?pageNumber=' + page[0]
     resp = requests.get(url=url)
     data = loads(resp.text)
-    return data['AssetSets']['AssetSet']
+    episodesList = data['AssetSets']['AssetSet']
+    pageSize = data['AssetSets']['@pageSize'] 
+    return episodesList, pageSize
 
 
 def get_episode_audio_url(episodeId):
@@ -110,7 +112,7 @@ def add_next_page(page, addon_handle, rsiid):
         nextpage = 2
     else:
         nextpage = int(page[0]) + 1
-    li = xbmcgui.ListItem(label=">>> Mostra di piu >>>")
+    li = xbmcgui.ListItem(label=">>> Mostra di piu [" + str(nextpage) + "] >>>")
     xbmcplugin.addDirectoryItem(handle=addon_handle,
                                 url=build_url({'mode': 'AssetGroup',
                                                'rsiid': rsiid[0],
@@ -142,10 +144,11 @@ def main():
         for show in showsList:
             add_show(show, addon_handle)
     elif mode[0] == 'AssetGroup':
-        episodesList = get_episodes(rsiid[0], page)
+        episodesList, pageSize = get_episodes(rsiid[0], page)
         for episode in episodesList:
             add_episode(episode, addon_handle)
-        add_next_page(page, addon_handle, rsiid)
+        if pageSize != 0:
+            add_next_page(page, addon_handle, rsiid)
     elif mode[0] == 'play':
         play_episode(rsiid[0], addon_handle)
 
