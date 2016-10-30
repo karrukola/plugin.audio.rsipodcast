@@ -69,8 +69,8 @@ def play_episode(episodeId):
     Play the selected episode
     """
     epurl = get_episode_audio_url(episodeId)
-    li = xbmcgui.ListItem(path=epurl)
-    xbmcplugin.setResolvedUrl(addon_handle, True, li)
+    kli = xbmcgui.ListItem(path=epurl)
+    xbmcplugin.setResolvedUrl(ADDON_HANDLE, True, kli)
     return epurl
 
 
@@ -83,12 +83,12 @@ def add_show(show):
     except:
         thumb = None
 
-    li = xbmcgui.ListItem(label=show['title'].encode('utf-8').strip(),
-                          thumbnailImage=thumb)
-    xbmcplugin.addDirectoryItem(handle=addon_handle,
+    kli = xbmcgui.ListItem(label=show['title'].encode('utf-8').strip(),
+                           thumbnailImage=thumb)
+    xbmcplugin.addDirectoryItem(handle=ADDON_HANDLE,
                                 url=build_url({'mode': 'AssetGroup',
                                                'rsiid': show['id']}),
-                                listitem=li,
+                                listitem=kli,
                                 isFolder=True)
     return
 
@@ -101,13 +101,13 @@ def add_episode(ep):
         thumb = ep['Assets']['Image']['ImageRepresentations']['ImageRepresentation'][0]['url']
     except:
         thumb = None
-    li = xbmcgui.ListItem(label=ep['title'].encode('utf-8').strip(),
-                          thumbnailImage=thumb)
-    li.setProperty('IsPlayable', 'true')
-    xbmcplugin.addDirectoryItem(handle=addon_handle,
+    kli = xbmcgui.ListItem(label=ep['title'].encode('utf-8').strip(),
+                           thumbnailImage=thumb)
+    kli.setProperty('IsPlayable', 'true')
+    xbmcplugin.addDirectoryItem(handle=ADDON_HANDLE,
                                 url=build_url({'mode': 'play',
                                                'rsiid': ep['id']}),
-                                listitem=li)
+                                listitem=kli)
     return
 
 
@@ -119,12 +119,12 @@ def add_next_page(page, rsiid):
         nextpage = 2
     else:
         nextpage = int(page[0]) + 1
-    li = xbmcgui.ListItem(label=">>> Mostra di piu [" + str(nextpage) + "] >>>")
-    xbmcplugin.addDirectoryItem(handle=addon_handle,
+    kli = xbmcgui.ListItem(label=">>> Mostra di piu [" + str(nextpage) + "] >>>")
+    xbmcplugin.addDirectoryItem(handle=ADDON_HANDLE,
                                 url=build_url({'mode': 'AssetGroup',
                                                'rsiid': rsiid[0],
                                                'page': str(nextpage)}),
-                                listitem=li,
+                                listitem=kli,
                                 isFolder=True)
     return
 
@@ -140,11 +140,11 @@ def main():
     if mode is None:
         # create list of (radio) channels
         for channel in CHLIST:
-            li = xbmcgui.ListItem(label=channel[0],
-                                  thumbnailImage=channel[1])
-            xbmcplugin.addDirectoryItem(handle=addon_handle,
+            kli = xbmcgui.ListItem(label=channel[0],
+                                   thumbnailImage=channel[1])
+            xbmcplugin.addDirectoryItem(handle=ADDON_HANDLE,
                                         url=build_url({'mode': 'channel', 'rsiid': channel[0]}),
-                                        listitem=li,
+                                        listitem=kli,
                                         isFolder=True)
     elif mode[0] == 'channel':
         showslist = get_shows(rsiid[0])
@@ -160,9 +160,9 @@ def main():
         play_episode(rsiid[0])
 
     # e chiudiamo la lista per tutti i modi
-    xbmcplugin.endOfDirectory(addon_handle)
+    xbmcplugin.endOfDirectory(ADDON_HANDLE)
 
 
 if __name__ == '__main__':
-    addon_handle = int(sys.argv[1])
+    ADDON_HANDLE = int(sys.argv[1])
     main()
