@@ -166,7 +166,6 @@ def main():
     elif mode[0] == 'AssetGroup':
         if imgid is not None:
             imgid = imgid[0]
-        # thumb_url = gen_image_url(imgid[0], 'EPISODE_IMAGE')
         fanart_url = gen_image_url(imgid, 'WEBVISUAL')
         episodeslist, pagesize = get_episodes(rsiid[0], page)
         for episode in episodeslist:
@@ -175,7 +174,6 @@ def main():
             add_next_page(page, rsiid, imgid)
     elif mode[0] == 'play':
         play_episode(rsiid[0])
-
     # e chiudiamo la lista per tutti i modi
     xbmcplugin.endOfDirectory(ADDON_HANDLE)
 
