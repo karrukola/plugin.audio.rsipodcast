@@ -102,8 +102,8 @@ def add_show(show):
         imgid = None
         thumb = None
 
-    kli = xbmcgui.ListItem(label=show['title'].encode('utf-8').strip(),
-                           thumbnailImage=thumb)
+    kli = xbmcgui.ListItem(label=show['title'].encode('utf-8').strip())
+    kli.setArt({'thumb': thumb})
     xbmcplugin.addDirectoryItem(handle=ADDON_HANDLE,
                                 url=build_url({'mode': 'AssetGroup',
                                                'rsiid': show['id'],
