@@ -1,12 +1,12 @@
 import os
 import sys
+from json import loads
 import urllib
 import urlparse
+import requests
 import xbmcaddon
 import xbmcgui
 import xbmcplugin
-from json import loads
-import requests
 
 BASEURL = 'http://il.srgssr.ch/integrationlayer/1.0/ue/rsi/'
 
@@ -24,8 +24,7 @@ CHLIST = [
 
 
 def build_url(query):
-    """
-    To pass the parameters among plugin calls
+    """To pass the parameters among plugin calls
     """
     base_url = sys.argv[0]
     return base_url + '?' + urllib.urlencode(query)
@@ -45,8 +44,7 @@ def gen_image_url(imgid, usage):
         return None
 
 def get_shows(channelid):
-    """
-    Return a json object with all the shows for a certain channel
+    """Return a json object with all the shows for a certain channel
     """
     url = BASEURL + 'radio/assetGroup/editorialPlayerAlphabeticalByChannel/' + \
             channelid + '.json'
@@ -56,8 +54,7 @@ def get_shows(channelid):
 
 
 def get_episodes(showid, page):
-    """
-    Get episodes list for a given ID.
+    """Get episodes list for a given ID.
     Episodes are paginated in groups of 10, thus you need to know the page
     """
     url = BASEURL + 'assetSet/listByAssetGroup/' + showid + '.json'
@@ -71,19 +68,17 @@ def get_episodes(showid, page):
 
 
 def get_episode_details(episodeid):
-    """
-    Retrieve the mp3 URL
+    """Retrieve the mp3 URL
     """
     url = BASEURL + 'audio/play/' + episodeid + '.json'
     resp = requests.get(url=url)
     return loads(resp.text)
 
 
-def play_episode(episodeId):
+def play_episode(episodeid):
+    """Play the selected episode
     """
-    Play the selected episode
-    """
-    data = get_episode_details(episodeId)
+    data = get_episode_details(episodeid)
     audio_url = data['Audio']['Playlists']['Playlist'][0]['url'][0]['text']
     kli = xbmcgui.ListItem(path=audio_url)
     kli.setInfo('music', {'title': data['Audio']['AssetSet']['title'].encode('utf-8').strip(),
@@ -95,8 +90,7 @@ def play_episode(episodeId):
 
 
 def add_show(show):
-    """
-    Add a list item for each show
+    """Add a list item for each show
     """
     try:
         imgid = show['Image']['ImageRepresentations']['ImageRepresentation'][0]['id']
@@ -116,22 +110,21 @@ def add_show(show):
     return
 
 
-def add_episode(ep, fanart_url):
+def add_episode(epdata, fanart_url):
     """Add a list item for each episode
     """
-    kli = xbmcgui.ListItem(label=ep['title'].encode('utf-8').strip())
+    kli = xbmcgui.ListItem(label=epdata['title'].encode('utf-8').strip())
     kli.setProperty('IsPlayable', 'true')
     kli.setArt({'fanart' : fanart_url})
     xbmcplugin.addDirectoryItem(handle=ADDON_HANDLE,
                                 url=build_url({'mode': 'play',
-                                               'rsiid': ep['id']}),
+                                               'rsiid': epdata['id']}),
                                 listitem=kli)
     return
 
 
 def add_next_page(page, rsiid, imgid):
-    """
-    Add navigation to another page
+    """Add navigation to another page
     """
     if page is None:
         nextpage = 2
@@ -149,8 +142,7 @@ def add_next_page(page, rsiid, imgid):
 
 
 def main():
-    """
-    main function, handles modes and lists creation in Kodi
+    """main function, handles modes and lists creation in Kodi
     """
     args = urlparse.parse_qs(sys.argv[2][1:])
     mode = args.get('mode', None)
