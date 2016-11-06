@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"nex",
+				"nextpage\tstatement"
+			],
+			[
+				"page",
+				"pageSize"
+			],
+			[
+				"epis",
+				"episodesList"
+			],
+			[
 				"is",
 				"IsPlayable"
 			],
@@ -36,10 +48,6 @@
 				"addon_handle\tstatement"
 			],
 			[
-				"epis",
-				"episodeId\tparam"
-			],
-			[
 				"play",
 				"play_episode\tfunction"
 			],
@@ -59,9 +67,18 @@
 			"file": "default.py",
 			"settings":
 			{
-				"buffer_size": 4172,
+				"buffer_size": 5102,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "README.md",
+			"settings":
+			{
+				"buffer_size": 1042,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -81,12 +98,12 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 0.0,
+		"height": 73.0,
 		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 490.0
 	},
 	"console":
 	{
@@ -131,9 +148,20 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"addon_handle",
+			"li",
+			"play",
+			"add_episode",
+			"get_shows",
+			"page",
+			"get_episodes",
+			"AssetGroup",
+			"add_episode",
+			"audio/play/",
+			"play_episode",
 			"channel",
 			"get_shows",
 			"print",
@@ -153,12 +181,14 @@
 		"regex": false,
 		"replace_history":
 		[
+			"ADDON_HANDLE",
+			"kli",
 			"BASEURL + '"
 		],
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
@@ -173,15 +203,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4172,
+						"buffer_size": 5102,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1405,
-								1405
+								5012,
+								5024
 							]
 						],
 						"settings":
@@ -195,7 +225,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1012.0,
+						"translation.y": 3164.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -203,6 +233,34 @@
 				},
 				{
 					"buffer": 1,
+					"file": "README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1042,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								344,
+								344
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "/C/Users/Filippo/AppData/Roaming/Kodi/addons/plugin.audio.deejayIt.reloaded/default.py",
 					"semi_transient": false,
 					"settings":
@@ -214,8 +272,8 @@
 						"selection":
 						[
 							[
-								5965,
-								5639
+								5083,
+								5083
 							]
 						],
 						"settings":
@@ -225,10 +283,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2881.0,
+						"translation.y": 2755.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
