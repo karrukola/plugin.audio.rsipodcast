@@ -12,11 +12,14 @@ BASEURL = 'http://il.srgssr.ch/integrationlayer/1.0/ue/rsi/'
 
 CHLIST = [
     ('rete-uno',
-     'http://www.rsi.ch/play/assets/img/srg/rsi/rete_uno_wide.png'),
+     'http://www.rsi.ch/play/assets/img/srg/rsi/rete_uno_wide.png',
+     'Rete Uno'),
     ('rete-due',
-     'http://www.rsi.ch/play/assets/img/srg/rsi/rete_due_wide.png'),
+     'http://www.rsi.ch/play/assets/img/srg/rsi/rete_due_wide.png',
+     'Rete Due'),
     ('rete-tre',
-     'http://www.rsi.ch/play/assets/img/srg/rsi/rete_tre_wide.png')
+     'http://www.rsi.ch/play/assets/img/srg/rsi/rete_tre_wide.png',
+     'Rete Tre')
 ]
 
 
@@ -157,10 +160,11 @@ def main():
     if mode is None:
         # create list of (radio) channels
         for channel in CHLIST:
-            kli = xbmcgui.ListItem(label=channel[0],
+            kli = xbmcgui.ListItem(label=channel[2],
                                    thumbnailImage=channel[1])
             xbmcplugin.addDirectoryItem(handle=ADDON_HANDLE,
-                                        url=build_url({'mode': 'channel', 'rsiid': channel[0]}),
+                                        url=build_url({'mode': 'channel',
+                                                       'rsiid': channel[0]}),
                                         listitem=kli,
                                         isFolder=True)
     elif mode[0] == 'channel':
