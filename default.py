@@ -39,6 +39,9 @@ def gen_image_url(imgid, usage):
     if imgid is not None:
         xbmc.log('imgid is not None')
         return 'http://www.rsi.ch/rsi-api/resize/image/' + usage + '/' + imgid + '/'
+    elif imgid == 'None':
+        xbmc.log('imgid is None (string)')
+        return None
     else:
         xbmc.log('imgid is None')
         return None
