@@ -54,24 +54,28 @@ def get_episodes(showid, page):
     return episodeslist, pagesize
 
 
-def get_episode_audio_url(episodeid):
+def get_episode_details(episodeid):
     """
     Retrieve the mp3 URL
     """
     url = BASEURL + 'audio/play/' + episodeid + '.json'
     resp = requests.get(url=url)
-    data = loads(resp.text)
-    return data['Audio']['Playlists']['Playlist'][0]['url'][0]['text']
+    return loads(resp.text)
 
 
 def play_episode(episodeId):
     """
     Play the selected episode
     """
-    epurl = get_episode_audio_url(episodeId)
-    kli = xbmcgui.ListItem(path=epurl)
+    data = get_episode_details(episodeId)
+    audio_url = data['Audio']['Playlists']['Playlist'][0]['url'][0]['text']
+    kli = xbmcgui.ListItem(path=audio_url)
+    kli.setInfo('music', {'title': data['Audio']['AssetSet']['title'].encode('utf-8').strip(),
+                          'album': data['Audio']['AssetSet']['Show']['title'].encode('utf-8').strip(),
+                          'artist': data['Audio']['AssetSet']['Show']['lead'].encode('utf-8').strip(),
+                          'date': data['Audio']['modifiedDate']})
     xbmcplugin.setResolvedUrl(ADDON_HANDLE, True, kli)
-    return epurl
+    return
 
 
 def add_show(show):
