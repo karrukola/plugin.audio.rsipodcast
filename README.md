@@ -21,3 +21,4 @@ The json APIs of RSI play are used, this to avoid making uncached calls to the s
 * Thumb - EPISODE_IMAGE
 * FanARt - WEBVISUAL
 I.e. http://www.rsi.ch/rsi-api/resize/image/EPISODE_IMAGE/5644198/
+I.e. http://www.rsi.ch/rsi-api/resize/image/EPISODE_IMAGE/8310520//scale/width/321
