@@ -7,6 +7,7 @@ import requests
 import xbmcaddon
 import xbmcgui
 import xbmcplugin
+import xbmc
 
 BASEURL = 'http://il.srgssr.ch/integrationlayer/1.0/ue/rsi/'
 
@@ -49,8 +50,7 @@ def gen_image_url(imgid, usage):
 def get_shows(channelid):
     """Return a json object with all the shows for a certain channel
     """
-    url = BASEURL + 'radio/assetGroup/editorialPlayerAlphabeticalByChannel/' + \
-            channelid + '.json'
+    url = BASEURL + 'radio/assetGroup/editorialPlayerAlphabeticalByChannel/' + channelid + '.json'
     resp = requests.get(url=url)
     data = loads(resp.text)
     return data['AssetGroups']['Show']
@@ -103,7 +103,8 @@ def add_show(show):
         thumb = None
 
     kli = xbmcgui.ListItem(label=show['title'].encode('utf-8').strip())
-    kli.setArt({'thumb': thumb})
+    if thumb is not None:
+        kli.setArt({'thumb': thumb})
     xbmcplugin.addDirectoryItem(handle=ADDON_HANDLE,
                                 url=build_url({'mode': 'AssetGroup',
                                                'rsiid': show['id'],
@@ -118,7 +119,8 @@ def add_episode(epdata, fanart_url):
     """
     kli = xbmcgui.ListItem(label=epdata['title'].encode('utf-8').strip())
     kli.setProperty('IsPlayable', 'true')
-    kli.setArt({'fanart' : fanart_url})
+    if fanart_url is not None:
+        kli.setArt({'fanart': fanart_url})
     xbmcplugin.addDirectoryItem(handle=ADDON_HANDLE,
                                 url=build_url({'mode': 'play',
                                                'rsiid': epdata['id']}),
@@ -163,6 +165,13 @@ def main():
                                         listitem=kli,
                                         isFolder=True)
     elif mode[0] == 'channel':
+        """Le ultime 24 ore
+        i.e. http://il.srgssr.ch/integrationlayer/1.0/ue/rsi/audio/
+              editorialPlayerLatestByChannel/rete-tre.json?pageSize=20
+        I piu ascoltati
+        i.e. http://il.srgssr.ch/integrationlayer/1.0/ue/rsi/audio/
+              mostClickedByChannel/rete-tre.json?pageSize=20
+        Trasmissioni dalla A alla Z"""
         showslist = get_shows(rsiid[0])
         for show in showslist:
             add_show(show)
