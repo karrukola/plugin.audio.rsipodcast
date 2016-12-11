@@ -56,17 +56,31 @@ def get_az_shows(channelid):
     return data['AssetGroups']['Show']
 
 
-def get_episodes(showid, scope, page):
+def get_episodes(showid, scope, page, maxeps):
     """Get episodes list for a given ID.
     Episodes are paginated in groups of 10, thus you need to know the page
     """
-    url = BASEURL + 'assetSet/' + scope + '/' + showid + '.json'
-    if page is not None:
-        url += '?pageNumber=' + page[0]
+    if scope == 'AssetGroup':
+        url = BASEURL + 'assetSet/listByAssetGroup/' + showid + '.json'
+        if page is not None:
+            url += '?pageNumber=' + page[0]
+    elif scope == 'mostRecent':
+        url = BASEURL + 'audio/editorialPlayerLatestByChannel/'
+        url += showid + '.json?pageSize=' + str(maxeps)
+    elif scope == 'mostClicked':
+        url = BASEURL + 'audio/mostClickedByChannel/'
+        url += showid + '.json?pageSize=' + str(maxeps)
+    else:
+        raise NameError('rsi')
+    print url
     resp = requests.get(url=url)
     data = loads(resp.text)
-    episodeslist = data['AssetSets']['AssetSet']
-    pagesize = data['AssetSets']['@pageSize']
+    if scope == 'AssetGroup':
+        episodeslist = data['AssetSets']['AssetSet']
+        pagesize = data['AssetSets']['@pageSize']
+    else:
+        episodeslist = data['Audios']['Audio']
+        pagesize = data['Audios']['@pageSize']
     return episodeslist, pagesize
 
 
@@ -114,10 +128,14 @@ def add_show(show):
     return
 
 
-def add_episode(epdata, fanart_url):
+def add_episode(epdata, fanart_url, scope):
     """Add a list item for each episode
     """
-    kli = xbmcgui.ListItem(label=epdata['title'].encode('utf-8').strip())
+    if scope == 'AssetGroup':
+        kli = xbmcgui.ListItem(label=epdata['title'].encode('utf-8').strip())
+    else:
+        kli = xbmcgui.ListItem(label=epdata['AssetSet']['title'].encode('utf-8').strip())
+        fanart_url = epdata['Image']['ImageRepresentations']['ImageRepresentation'][0]['url']
     kli.setProperty('IsPlayable', 'true')
     if fanart_url is not None:
         kli.setArt({'fanart': fanart_url})
@@ -150,13 +168,13 @@ def add_episodes(rsiid, scope, imgid, page, maxeps=None):
     """This adds a number of episodes to the list.
     This number is a parameter so you can tweak pagination in Kodi"""
     fanart_url = gen_image_url(imgid, 'WEBVISUAL')
-    episodeslist, pagesize = get_episodes(rsiid[0], scope, page)
+    episodeslist, pagesize = get_episodes(rsiid[0], scope, page, maxeps)
     for i, episode in enumerate(episodeslist):
         if maxeps is not None and i >= maxeps:
             break
         else:
-            add_episode(episode, fanart_url)
-    if pagesize != 0:
+            add_episode(episode, fanart_url, scope)
+    if maxeps is None and pagesize != 0:
         add_next_page(page, rsiid, imgid)
     return
 
@@ -187,13 +205,15 @@ def main():
         i.e. http://il.srgssr.ch/integrationlayer/1.0/ue/rsi/audio/
               mostClickedByChannel/rete-tre.json?pageSize=20
         Trasmissioni dalla A alla Z"""
+        add_episodes(rsiid, 'mostRecent', imgid, page, 4)
+        add_episodes(rsiid, 'mostClicked', imgid, page, 5)
         showslist = get_az_shows(rsiid[0])
         for show in showslist:
             add_show(show)
     elif mode[0] == 'AssetGroup':  # AssetGroup - List of episodes
         if imgid is not None:
             imgid = imgid[0]
-        add_episodes(rsiid, 'listByAssetGroup', imgid, page)
+        add_episodes(rsiid, 'AssetGroup', imgid, page)
     elif mode[0] == 'play':
         play_episode(rsiid[0])
     # e chiudiamo la lista per tutti i modi
