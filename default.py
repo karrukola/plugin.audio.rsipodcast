@@ -47,7 +47,7 @@ def gen_image_url(imgid, usage):
         xbmc.log('imgid is None')
         return None
 
-def get_shows(channelid):
+def get_az_shows(channelid):
     """Return a json object with all the shows for a certain channel
     """
     url = BASEURL + 'radio/assetGroup/editorialPlayerAlphabeticalByChannel/' + channelid + '.json'
@@ -56,11 +56,11 @@ def get_shows(channelid):
     return data['AssetGroups']['Show']
 
 
-def get_episodes(showid, page):
+def get_episodes(showid, scope, page):
     """Get episodes list for a given ID.
     Episodes are paginated in groups of 10, thus you need to know the page
     """
-    url = BASEURL + 'assetSet/listByAssetGroup/' + showid + '.json'
+    url = BASEURL + 'assetSet/' + scope + '/' + showid + '.json'
     if page is not None:
         url += '?pageNumber=' + page[0]
     resp = requests.get(url=url)
@@ -146,6 +146,21 @@ def add_next_page(page, rsiid, imgid):
     return
 
 
+def add_episodes(rsiid, scope, imgid, page, maxeps=None):
+    """This adds a number of episodes to the list.
+    This number is a parameter so you can tweak pagination in Kodi"""
+    fanart_url = gen_image_url(imgid, 'WEBVISUAL')
+    episodeslist, pagesize = get_episodes(rsiid[0], scope, page)
+    for i, episode in enumerate(episodeslist):
+        if maxeps is not None and i >= maxeps:
+            break
+        else:
+            add_episode(episode, fanart_url)
+    if pagesize != 0:
+        add_next_page(page, rsiid, imgid)
+    return
+
+
 def main():
     """main function, handles modes and lists creation in Kodi
     """
@@ -172,18 +187,13 @@ def main():
         i.e. http://il.srgssr.ch/integrationlayer/1.0/ue/rsi/audio/
               mostClickedByChannel/rete-tre.json?pageSize=20
         Trasmissioni dalla A alla Z"""
-        showslist = get_shows(rsiid[0])
+        showslist = get_az_shows(rsiid[0])
         for show in showslist:
             add_show(show)
-    elif mode[0] == 'AssetGroup':
+    elif mode[0] == 'AssetGroup':  # AssetGroup - List of episodes
         if imgid is not None:
             imgid = imgid[0]
-        fanart_url = gen_image_url(imgid, 'WEBVISUAL')
-        episodeslist, pagesize = get_episodes(rsiid[0], page)
-        for episode in episodeslist:
-            add_episode(episode, fanart_url)
-        if pagesize != 0:
-            add_next_page(page, rsiid, imgid)
+        add_episodes(rsiid, 'listByAssetGroup', imgid, page)
     elif mode[0] == 'play':
         play_episode(rsiid[0])
     # e chiudiamo la lista per tutti i modi
